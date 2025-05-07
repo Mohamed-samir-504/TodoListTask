@@ -1,0 +1,171 @@
+body {
+    background-color: #1C1C1E;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+.container {
+    width: 700px;
+    background-color: #2A2A2E;
+    padding: 30px;
+    border-radius: 8px;
+}
+
+
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.search-form{
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+
+
+
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+}
+
+
+
+
+
+.add-btn {
+    padding: 10px 20px;
+    background-color: #00C853;
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-btn:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    
+}
+
+
+
+
+
+.tabs {
+    display: flex;
+    margin: 20px 0;
+}
+
+.tab {
+    padding: 10px 20px;
+    flex:1;
+    border: none;
+    background-color: #424242;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.tab:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.tab.active {
+    background-color: #00BFA5;
+}
+
+
+
+
+
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.todo-item {
+    background-color: #3a3a3a;
+    padding: 15px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.todo-title {
+    color: #18FFFF;
+    font-weight: bold;
+    margin: 0;
+}
+
+.todo-desc {
+    margin: 5px 0 0 0;
+    color: #ccc;
+}
+
+
+
+
+
+.icons i {
+    margin-left: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 10px;
+}
+
+.icons i:hover {
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+    transform: scale(1.1);
+    transition: all 0.2s ease;
+  }
+
+.icons i.fa-check{
+    color: #69F0AE;
+}
+
+.icons i.fa-trash {
+    color: #FF5252;
+}
+
+.icons i.priority-icon {
+    color: gray;
+  }
+  
+.icons i.priority-icon.active {
+    color: gold;
+}

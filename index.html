@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Todos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>My Todos</h1>
+        
+        <div class="tabs">
+            <button class="tab active">To Do</button>
+            <button class="tab">Completed</button>
+        </div>
+
+        <div class="form">
+            <div class="input-group">
+                <label>Title:</label>
+                <input id="titleInput" type="text" placeholder="Todo title" />
+            </div>
+            <div class="input-group">
+                <label>Description:</label>
+                <input id="descInput" type="text" placeholder="Todo description" />
+            </div>
+            <button class="add-btn">Add</button>
+        </div>
+
+        <div class="form">
+            <div class="search-form">
+                <div class="input-group">
+                    <label>Search</label>
+                    <input id="searchInput" type="text" placeholder="Search by name" />
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="todo-list">
+            <div class="todo-item" data-status="todo">
+                <div>
+                    <h3 class="todo-title">Doing Workout</h3>
+                    <p class="todo-desc">I have to do push up at 6 PM</p>
+                </div>
+                <div class="icons">
+                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-trash"></i>
+                    <i class="fa-solid fa-circle-up priority-icon" title="Mark as priority"></i>
+                </div>
+            </div>
+
+            <div class="todo-item" data-status="todo">
+                <div>
+                    <h3 class="todo-title">Writing diary</h3>
+                    <p class="todo-desc">I will write diary at 10 PM</p>
+                </div>
+                <div class="icons">
+                    <i class="fa-solid fa-check"></i>
+                    <i class="fa-solid fa-trash"></i>
+                    <i class="fa-solid fa-circle-up priority-icon" title="Mark as priority"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
