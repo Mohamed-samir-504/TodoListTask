@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+    
     todoList.addEventListener('click', (e) => {
         const item = e.target;
         const todoItem = item.closest('.todo-item');
