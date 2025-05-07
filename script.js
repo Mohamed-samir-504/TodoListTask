@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const tabs = document.querySelectorAll('.tab');
     const searchForm = document.querySelector('.search-form');
 
+
+    
     function createTodoItem(title, description) {
         const todoItem = document.createElement('div');
         todoItem.className = 'todo-item';
