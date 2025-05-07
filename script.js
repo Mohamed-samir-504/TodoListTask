@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const todoItems = document.querySelectorAll('.todo-item');
 
         todoItems.forEach(item => {
+            
             if (item.getAttribute('data-status') === 'todo') {
                 const title = item.querySelector('.todo-title').textContent.toLowerCase();
 
@@ -90,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    
+
     todoList.addEventListener('click', (e) => {
         const item = e.target;
         const todoItem = item.closest('.todo-item');
