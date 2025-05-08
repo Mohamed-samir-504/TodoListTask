@@ -43,11 +43,14 @@ const searchForm = document.querySelector('.search-form');
 
 
 
-function createTodoItem(id, title, description, status) {
+function createTodoItem(id, title, description, status, priority) {
     const todoItem = document.createElement('div');
     todoItem.className = 'todo-item';
     todoItem.setAttribute('data-status', status);
     todoItem.setAttribute('Id', id);
+    if (priority) {
+        todoItem.classList.add('priority');
+    }
     todoItem.innerHTML = `
         <div>
           <h3 class="todo-title">${title}</h3>
@@ -86,7 +89,7 @@ function filterTodos() {
         if (activeTab === 'To Do') {
             todo.style.display = status === 'todo' ? 'flex' : 'none';
         } else if (activeTab === 'Completed') {
-            if(todo.getAttribute('data-status') === "completed")markCompleted(todo);
+            if (todo.getAttribute('data-status') === "completed") markCompleted(todo);
             todo.style.display = status === 'completed' ? 'flex' : 'none';
         }
     });
@@ -107,18 +110,39 @@ function markCompleted(todoItem) {
     if (checkIcon) checkIcon.remove();
 }
 
+function markPrioritized(todoItem) {
+    todoItem.classList.add('priority');
+    const priorityIcon = todoItem.querySelector('.fa-circle-up');
+    priorityIcon.classList.add('active');
+}
+
+function markUnPrioritized(todoItem) {
+    todoItem.classList.remove('priority');
+    const priorityIcon = todoItem.querySelector('.fa-circle-up');
+    priorityIcon.classList.remove('active');
+}
+
 
 async function fetchTasks() {
     todoList.innerHTML = '';
 
-    const q = query(collection(db, "todo-items"), orderBy("priority", "desc"));
-    const snapshot = await getDocs(q);
+    try {
+        const q = query(collection(db, "todo-items"), orderBy("priority", "desc"));
+        const snapshot = await getDocs(q);
 
-    snapshot.forEach(doc => {
-        const item = doc.data();
-        const todoItem = createTodoItem(doc.id, item.title, item.description, item.status);
-        todoList.appendChild(todoItem);
-    });
+        snapshot.forEach(doc => {
+            const item = doc.data();
+            const todoItem = createTodoItem(doc.id, item.title, item.description, item.status, item.priority);
+            todoList.appendChild(todoItem);
+
+            if (item.priority) markPrioritized(todoItem);
+        });
+    }
+    catch (error) {
+        console.error("Failed to fetch tasks:", error);
+        alert("Error loading tasks. Please refresh the page.");
+    }
+
 
     filterTodos();
     reorderTodos();
@@ -139,13 +163,14 @@ addBtn.addEventListener('click', async () => {
             title,
             description,
             status: 'todo',
-            priority: 1,
+            priority: 0,
             timestamp: serverTimestamp()
         });
         titleInput.value = '';
         descInput.value = '';
     } catch (error) {
         console.error("Error adding task:", error);
+        alert("Error: could not add your task. Please try again.");
     }
 
 
@@ -179,33 +204,68 @@ searchInput.addEventListener('input', () => {
 });
 
 
-
 todoList.addEventListener('click', async (e) => {
     const item = e.target;
     const todoItem = item.closest('.todo-item');
 
     //if trash icon is presses
     if (item.classList.contains('fa-trash')) {
-        console.log(todoItem.getAttribute('Id'));
-        await deleteDoc(doc(db, "todo-items", todoItem.getAttribute('Id')));
+        try {
+            await deleteDoc(doc(db, "todo-items", todoItem.getAttribute('Id')));
+        } catch (error) {
+            console.error("Failed to delete task:", error);
+            alert("Failed to delete task.");
+        }
         todoItem.remove();
     }
 
     //if completed icon is presses
     else if (item.classList.contains('fa-check')) {
 
+        try {
+            await updateDoc(doc(db, "todo-items", todoItem.getAttribute('Id')), {
+                status: "completed"
+            });
+        } catch (error) {
+            console.error("Failed to update task:", error);
+            alert("Could not update task.");
+        }
+
         markCompleted(todoItem);
-        await updateDoc(doc(db, "todo-items", todoItem.getAttribute('Id')), {
-            status: "completed"
-        });
+
         //re-filter to remove completed todos into completed tab
         filterTodos();
     }
 
     //if priority icon is pressed
     else if (item.classList.contains('fa-circle-up')) {
-        todoItem.classList.toggle('priority');
-        item.classList.toggle('active');
+
+        if (item.classList.contains('active')) {
+            try {
+                await updateDoc(doc(db, "todo-items", todoItem.getAttribute('Id')), {
+                    priority: 0
+                });
+
+                markUnPrioritized(todoItem)
+            } catch (error) {
+                console.error("Failed to update task:", error);
+                alert("Could not update task.");
+            }
+
+        }
+        else {
+            try {
+                await updateDoc(doc(db, "todo-items", todoItem.getAttribute('Id')), {
+                    priority: 1
+                });
+
+                markPrioritized(todoItem)
+            } catch (error) {
+                console.error("Failed to update task:", error);
+                alert("Could not update task.");
+            }
+        }
+
         reorderTodos();
     }
 });
