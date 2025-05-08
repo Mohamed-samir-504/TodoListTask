@@ -1,6 +1,5 @@
-
+//-----------------------------------------------Firebase init----------------------------------------------------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-
 import {
     getFirestore,
     collection,
@@ -14,9 +13,6 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyAHfTgwgSamL-iR3PT4lqZZ219aqWZ-PZE",
     authDomain: "todolist-dd189.firebaseapp.com",
@@ -33,6 +29,8 @@ const db = getFirestore(app);
 
 
 
+//----------------------------------------------DOM elements--------------------------------------------------
+
 const titleInput = document.getElementById('titleInput');
 const descInput = document.getElementById('descInput');
 const searchInput = document.getElementById('searchInput');
@@ -42,6 +40,7 @@ const tabs = document.querySelectorAll('.tab');
 const searchForm = document.querySelector('.search-form');
 
 
+//------------------------------------------------Functions---------------------------------------------------
 
 function createTodoItem(id, title, description, status, priority) {
     const todoItem = document.createElement('div');
@@ -123,7 +122,9 @@ function markUnPrioritized(todoItem) {
 }
 
 
-async function fetchTasks() {
+
+
+async function fetchTodos() {
     todoList.innerHTML = '';
 
     try {
@@ -143,14 +144,18 @@ async function fetchTasks() {
         alert("Error loading tasks. Please refresh the page.");
     }
 
-
     filterTodos();
     reorderTodos();
-
 }
 
 
+
+
 //-------------------------------------------EventListeners----------------------------------------------------
+
+//Get request to fetch all todos
+document.addEventListener("DOMContentLoaded", fetchTodos);
+
 
 addBtn.addEventListener('click', async () => {
     const title = titleInput.value.trim();
@@ -173,12 +178,11 @@ addBtn.addEventListener('click', async () => {
         alert("Error: could not add your task. Please try again.");
     }
 
-
     const todoItem = createTodoItem(title, description);
     todoList.appendChild(todoItem);
     titleInput.value = '';
     descInput.value = '';
-    fetchTasks();
+    fetchTodos();
     filterTodos();
 
 });
@@ -288,5 +292,4 @@ tabs.forEach(tab => {
         filterTodos();
     });
 
-    document.addEventListener("DOMContentLoaded", fetchTasks);
 });
